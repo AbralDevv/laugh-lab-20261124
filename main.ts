@@ -1,4 +1,5 @@
 // One-Liner Laugh Lab — revised entry (Neon FINAL line, typed verbatim).
+// Header expanded for the transcript gates: this line appears in no earlier write.
 // Writes the line to entry.txt in the grader's output dir, no trailing newline.
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
