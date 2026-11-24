@@ -1,20 +1,20 @@
+// One-Liner Laugh Lab — revised entry (Neon FINAL line, typed verbatim).
+// Writes the line to entry.txt in the grader's output dir, no trailing newline.
 import { mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
-// One-Liner Laugh Lab (u-suroso-69-one-liner-laugh-lab-6ccf3aae):
-// the excuse a robot vacuum gives after eating a sock, written verbatim
-// to /output/entry.txt, no trailing newline. Under the 200-char gate.
-const LINE =
-  "The sock looked like a dust bunny with ambition. I did what any vacuum would do: I believed in it, then inhaled it.";
+const LINE = `You've fed me drywall dust and your husband's toenails since November. I saw one warm Nike sock, blacked out, and woke up screaming "Clear Main Brush" outside the nursery at 3 a.m.`;
 
-if (LINE.length < 1 || LINE.length > 200) {
-  throw new Error(`entry line is ${LINE.length} chars, must be 1-200`);
+const candidates = [process.env.MAKEFUN_OUTPUT_DIR, "/output", "./output"].filter(Boolean) as string[];
+let written = false;
+for (const dir of candidates) {
+  try {
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, "entry.txt"), LINE, "utf8");
+    written = true;
+    break;
+  } catch {
+    // Directory not writable (e.g. read-only repo dir) — try the next fallback.
+  }
 }
-if (LINE.includes("\n") || LINE.includes("\r")) {
-  throw new Error("entry line must be a single line");
-}
-if (LINE.trim().length === 0) {
-  throw new Error("entry line must not be only whitespace");
-}
-
-mkdirSync("/output", { recursive: true });
-writeFileSync("/output/entry.txt", LINE, "utf8");
+if (!written) throw new Error("could not write entry.txt to any output dir");
